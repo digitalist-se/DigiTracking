@@ -1,0 +1,13 @@
+{
+    "DigiTracking": {
+        "DataAttributeTrackingTagName": "DataAttributeTracking",
+        "DataAttributeTrackingTagDescription": "This is the description for DataAttributeTracking",
+        "DataAttributeTrackingTagHelp": "",
+        "ParentClickTextVariableName": "ParentClickText",
+        "ParentClickTextVariableDescription": "This is the description for ParentClickText",
+        "ParentClickTextVariableHelp": "",
+        "ClickParentsVariableName": "ClickParents",
+        "ClickParentsVariableDescription": "This is the description for ClickParents",
+        "ClickParentsVariableHelp": ""
+    }
+}
