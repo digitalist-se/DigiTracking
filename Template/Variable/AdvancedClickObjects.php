@@ -32,9 +32,7 @@ class AdvancedClickObjects extends BaseVariable
         // translation key. you can either adjust/create/remove this translation key, or return a different value
         // here directly.
         //return parent::getDescription();
-        return "Advanced Click Objects heplp you to fetch information from other html elements that the actual click object. <br> Test
-        Somtimes you end up having to buld custom JS functions to do this and this is always a risk, since you need to handle all possible situations where the element you ask for does not exist etc<br>
-        This variable has some built in validations and tries to make this work a little easier ";
+        return 'This variable will heplp you to get data from other html elements than the actual clickElement using relative querySelectors. So finally you can read that meta-data from a buttons parent element or a lot more advanced scenarios.';
     }
 
     public function getHelp()
@@ -42,6 +40,7 @@ class AdvancedClickObjects extends BaseVariable
         // By default, the help will be automatically fetched from the DigiTracking_ClickParentsVariableHelp translation key.
         // you can either adjust/create/remove this translation key, or return a different value here directly.
         return parent::getHelp();
+        
     }
 
     public function getIcon()
@@ -61,7 +60,9 @@ class AdvancedClickObjects extends BaseVariable
         return array(
             $this->makeSetting('clickObjectFunction', 'clickParents', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
                 $field->title = 'Type of clickelement function to use';
-                $field->description = 'clickParents will look upwards the doom three (parents) usring closest() and clickChildren will look down below the clickElement using documentQuerySelector()';
+                $field->description = 'clickParents will look upwards the DOM tree (parents) using closest() and clickChildren will look down below the clickElement using querySelector().';
+                $field->inlineHelp = ' <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector">Learn about the querySelector function at the Mozilla docs</a><br>
+                 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest">Learn about the closest function at the Mozilla docs</a>';
                 $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
                 $field->validators[] = new NotEmpty();
                 $field->availableValues = array(
@@ -69,16 +70,47 @@ class AdvancedClickObjects extends BaseVariable
                     'clickChildren' => 'clickChildren',
                 );
             }),
-            $this->makeSetting('clickObjectSelector', '.theElement', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+            $this->makeSetting('clickObjectSelector', '.the-parent', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = 'Enter the queryselector to use the find the element';
-                $field->description = 'This could be a .className or #id or [myMetaTag=value]';
-            }),   
+                $field->description = 'Enter a query selector to use to find the element relative to the click element (button below for example).';
+                $field->inlineHelp = 'This could be a .className #id or [myMetaTag=value] etc<br>
+                It can be anywhere above / below the click element<br>
+                but it has to be a parent(clickParents) or child(clickChildren).<br>
+                For example<br> <textarea style="border:none; resize: none; height: 80px" readonly>
+                <div class="the-parent" meta-data="the-value">
+                    <button>clickElement
+                        <span class="the-child" child-meta="child-value"></span>
+                    </button>
+                </div> </textarea>';
+
+
+                }),         
+            $this->makeSetting('clickObjectSecondQuery', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+                $field->title = 'Enable subquery for clickParents';
+                $field->condition = 'clickObjectFunction == "clickParents"';
+                $field->description = "This will give you the ability to do a querySelector on the parent to find siblings or other nested elements in the page.";
+                $field->inlineHelp = 'clickElement.closest(".the-parent").querySelector(".sibling")<br>  
+                For example<br> <textarea style="border:none; resize: none; height: 65px" readonly>
+                <div class="the-parent">
+                    <div class="sibling" sibling-meta="sibling-value"></div> 
+                    <button>clickElement</button>
+                </div> </textarea>';
+
+            }),
+            $this->makeSetting('clickObjectSecondQuerySelector', '.theSubElement', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = 'Enter query selector for additional logic';
+                $field->condition = 'clickObjectSecondQuery == true';
+                $field->description = 'Enter a query selector to use to find the sub element.';
+                $field->inlineHelp = 'This could be a .className #id or [myMetaTag=value]';
+                }),  
             $this->makeSetting('clickObjectLookupProperty', 'innerText', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
                 $field->title = 'Select the property you want to access';
-                $field->description = 'Define the property you want to read data from with the js function getAttribute(). If you select custom you can enter it manually';
+                $field->description = 'The property you want to get data from after the querys have been done.';
+                $field->inlineHelp = ' If you select custom you can enter it manually';
                 $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
                 $field->validators[] = new NotEmpty();
                 $field->availableValues = array(
+                    'custom' => 'custom  - enter manually',
                     'innerText' => 'innerText',
                     'innerHTML' => 'innerHTML',
                     'class' => 'class',
@@ -93,14 +125,19 @@ class AdvancedClickObjects extends BaseVariable
                     'aria-hidden' => 'aria-hidden',
                     'aria-selected' => 'aria-selected',
                     'aria-required' => 'aria-required',
-                    'custom' => 'custom  - enter manually',
                 );
             }),
-            $this->makeSetting('clickObjectCustomProperty', 'innerText', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'Manually enter the property you want to access. for example innerText or aria-label. ';
+            $this->makeSetting('clickObjectCustomProperty', 'meta-data', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = 'Tthe property you want to access. for example innerText or aria-label.';
                 $field->condition = 'clickObjectLookupProperty == "custom"';
-                $field->description = 'We will use the js function getAttribute("<value>") to read the defined value from the element. https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute ';
-            }),            
+                $field->description = 'We will use the js function getAttribute("<meta-data>") to read the defined value from the element.';
+                $field->inlineHelp = 'For example<br> <textarea style="border:none; resize: none; height: 52px" readonly>
+                <div class="the-parent" meta-data="the-value">
+                    <button>clickElement</button>
+                </div> </textarea><br><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute"> Learn about the getAttribute function at the Mozilla docs</a>';
+
+            }),   
+
         );        
     }
 

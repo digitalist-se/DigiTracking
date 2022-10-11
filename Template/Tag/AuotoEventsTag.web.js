@@ -49,7 +49,8 @@
 
             // START OUTLINK EVENTS
             //Ignore mail, phone and JS clicks etc  
-            if(options.enableOutLinkEvents && event.target != null && 
+            if(options.enableOutLinkEvents && event.target != null &&
+                eventLink != undefined && 
                 eventLink.search("javascript:") == -1 && 
                 eventLink.search("mailto:") == -1 &&
                 eventLink.search("ftp:") == -1 &&
@@ -105,7 +106,7 @@
             }
             // END DOWNLOAD EVENTS
             // START PHONE CLICK EVENTS
-            if(options.enablePhoneClicks && eventLink.search("tel:") != -1 ) {    
+            if(options.enablePhoneClicks && eventLink != undefined && eventLink.search("tel:") != -1 ) {    
                 _paq.push(['trackEvent', 
                     options.customPhoneEventCategory , 
                     event.target.innerText , 
@@ -116,7 +117,7 @@
             }
             // END PHONE CLICK  EVENTS
             // START MAIL CLICK EVENTS
-            if(options.enableMailClicks && eventLink.search("mailto:") != -1 ) {    
+            if(options.enableMailClicks && eventLink != undefined && eventLink.search("mailto:") != -1 ) {    
                     _paq.push(['trackEvent', 
                         options.customMailEventCategory , 
                         event.target.innerText , 

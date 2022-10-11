@@ -26,7 +26,7 @@ class DataAttributeTrackingTag extends BaseTag
         // translation key. you can either adjust/create/remove this translation key, or return a different value
         // here directly.
         //return parent::getDescription();
-        return 'Add code that will enable you to do event tracking on your site just by adding data attributes to you html elements. Like: <textarea readonly><button data-event-category="Click" data-event-action="Button" data-event-name="Data attribute test" data-event-value="10" >Data attribute test</button></textarea>';
+        return 'Add code that will enable you to do event tracking on your site just by adding data attributes to you html elements. Like: <textarea style="border:none;" readonly><button data-event-category="Click" data-event-action="Button" data-event-name="Data attribute test" data-event-value="10" >Data attribute test</button></textarea>';
     }
 
     public function getHelp()
@@ -56,9 +56,7 @@ class DataAttributeTrackingTag extends BaseTag
     }
 
     public function getParameters()
-    {
-        $downloadFileExtensions = array('7z','aac','apk','arc','arj','asf','asx','avi','azw3','bin','csv','deb','dmg','doc','docx','epub','exe','flv','gif','gz','gzip','hqx','ibooks','jar','jpg','jpeg','js','mobi','mp2','mp3','mp4','mpg','mpeg','mov','movie','msi','msp','odb','odf','odg','ods','odt','ogg','ogv','pdf','phps','png','ppt','pptx','qt','qtm','ra','ram','rar','rpm','sea','sit','tar','tbz','tbz2','bz','bz2','tgz','torrent','txt','wav','wma','wmv','wpd','xls','xlsx','xml','z','zip');
-        $downloadFileExtensions = implode(',', $downloadFileExtensions);
+    {        
         return array(
             $this->makeSetting('useDataLayer', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
                 $field->title = 'Send data as a custom event to Datalayer';
