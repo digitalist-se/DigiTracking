@@ -8,6 +8,9 @@
         "ParentClickTextVariableHelp": "",
         "ClickParentsVariableName": "ClickParents",
         "ClickParentsVariableDescription": "This is the description for ClickParents",
-        "ClickParentsVariableHelp": ""
+        "ClickParentsVariableHelp": "",
+        "OutlinkAndDownloadEventsTagName": "OutlinkAndDownloadEvents",
+        "OutlinkAndDownloadEventsTagDescription": "This is the description for OutlinkAndDownloadEvents",
+        "OutlinkAndDownloadEventsTagHelp": ""
     }
 }
