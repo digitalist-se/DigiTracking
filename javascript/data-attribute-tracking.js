@@ -43,7 +43,7 @@ function sendEventData(elem,options) {
     if(elem.getAttribute('data-event-value') != null)
         value = elem.getAttribute('data-event-value');  
 
-    if(options.useDataLayer)    {
+    if(options.useDataLayer) {
             _mtm.push({
                 'event': options.customEvent,
                         cat : elem.getAttribute('data-event-category'),
