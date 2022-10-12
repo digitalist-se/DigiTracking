@@ -51,6 +51,8 @@
             //Ignore mail, phone and JS clicks etc  
             if(options.enableOutLinkEvents && event.target != null &&
                 eventLink != undefined && 
+                eventLink.startsWith("/") != true &&
+                eventLink.startsWith("./") != true &&
                 eventLink.search("javascript:") == -1 && 
                 eventLink.search("mailto:") == -1 &&
                 eventLink.search("ftp:") == -1 &&
