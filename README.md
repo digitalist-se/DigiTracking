@@ -21,7 +21,7 @@ Like:
 
 ### AdvancedClickObjects
 This variable will heplp you to get data from other html elements than the actual clickElement using relative querySelectors. So finally you can read that meta-data from a buttons parent element or a lot more advanced scenarios.
-So in the case below you can create a variable to get the values from '[meta-data]' or '[child-meta]' or basically anything. 
+So in the case below you can create a variable to get the values from [meta-data] or [child-meta] or basically anything. 
 '<div class="the-parent" meta-data="the-value">
   <button>clickElement
     <span class="the-child" child-meta="child-value"></span>
