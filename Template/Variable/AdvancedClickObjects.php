@@ -16,7 +16,7 @@ class AdvancedClickObjects extends BaseVariable
     public function getCategory()
     {
         //return self::CATEGORY_PAGE_VARIABLES;
-        return "All Digitalist.se Tracking Helpers";
+        return "Aawesome Digitalist.se Tracking Helpers";
     }
 
     public function getName()

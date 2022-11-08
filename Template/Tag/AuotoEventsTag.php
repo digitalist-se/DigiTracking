@@ -115,11 +115,13 @@ class AuotoEventsTag extends BaseTag
             $this->makeSetting('customPhoneEventCategory', 'phoneClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = 'The eventCategory name to use for these events';
                 $field->condition = 'enablePhoneClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
                 $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
             }),              
             $this->makeSetting('customPhoneEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
                 $field->title = 'The eventValue name to use for phone number click events';
                 $field->condition = 'enablePhoneClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
                 $field->description = 'The event vale to use.';
             }),  
             $this->makeSetting('enableMailClicks', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
@@ -129,13 +131,43 @@ class AuotoEventsTag extends BaseTag
             $this->makeSetting('customMailEventCategory', 'mailClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = 'The eventCategory name to use for these events';
                 $field->condition = 'enableMailClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
                 $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
             }),
             $this->makeSetting('customMailEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
                 $field->title = 'The eventValue name to use for mail click events';
                 $field->condition = 'enableMailClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
                 $field->description = 'The event vale to use.';
-            }),                 
+            }),   
+            $this->makeSetting('enableAccordionClicks', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+                $field->title = 'Enable automatic event tracking of clicks on accordions ';
+                $field->description = "This will automatically send events to Matomo when someone open an accordions.  Events are named like this: EventCat: accordionClick EventAction: <click text>,  EventName: <page path>";
+            }),
+            $this->makeSetting('customAccordionClickSelector', '.accordion-element', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = 'The querySelector to use or accordion clicks';
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+                $field->description = 'This is how we detect the clicks. This should be a querySelector like accordion-item__top__toggle__icon-plus';
+            }),
+            $this->makeSetting('customAccordionOpenSelector', '[aria-expanded]', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = 'The querySelector to use to check if an accordion is already open';
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+                $field->description = 'Since we only want to send the event when the accordion is opened. By default we use aria-expanded on the click object (but if this does not exist) you can manually enter something else like a classs or you can use ';
+            }),                            
+            $this->makeSetting('customAccordionEventCategory', 'accordionClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = 'The eventCategory name to use for these events';
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+                $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
+            }),
+            $this->makeSetting('customAccordionEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
+                $field->title = 'The eventValue name to use for accordion click events';
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+                $field->description = 'The event vale to use.';
+            }),               
         );
     }
 

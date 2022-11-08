@@ -11,6 +11,9 @@
         "ClickParentsVariableHelp": "",
         "OutlinkAndDownloadEventsTagName": "OutlinkAndDownloadEvents",
         "OutlinkAndDownloadEventsTagDescription": "This is the description for OutlinkAndDownloadEvents",
-        "OutlinkAndDownloadEventsTagHelp": ""
+        "OutlinkAndDownloadEventsTagHelp": "",
+        "SearchReplaceTextsVariableName": "SearchReplaceTexts",
+        "SearchReplaceTextsVariableDescription": "This is the description for SearchReplaceTexts",
+        "SearchReplaceTextsVariableHelp": ""
     }
 }
