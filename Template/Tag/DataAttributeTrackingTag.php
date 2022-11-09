@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\DigiTracking\Template\Tag;
 
 use Piwik\Settings\FieldConfig;
+use Piwik\Piwik;
 use Piwik\Plugins\TagManager\Template\Tag\BaseTag;
 use Piwik\Validators\NotEmpty;
 
@@ -55,38 +56,39 @@ class DataAttributeTrackingTag extends BaseTag
         return 'plugins/DigiTracking/images/icons/DataAttribute.svg';
     }
 
-    public function getParameters()
+    public function getParameters()     
     {        
         return array(
             $this->makeSetting('useDataLayer', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-                $field->title = 'Send data as a custom event to Datalayer';
-                $field->description = "You can choose to send the events via the DataLayer with custom Events instead of directly pushing the events to Matomo with _paq.push(['trackEvent',....) The reason for doing so would give you more control in the TagManager. You can set up more rules etc. If you enable this you will need to manually set up 3 datalayer variables, a trigger and a Matomo Event before anything will be sent to Matomo";
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerTitle');
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerDescription');
             }),
             $this->makeSetting('customEvent', 'customEvent', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The name to use for the custom Event.';
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerCustomEvenTitle');
                 $field->condition = 'useDataLayer == "true"';
-                $field->description = 'We will send event to the datalayer with the name you define here. For example mtm.push({  "event": "customEvent"}); ';
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerCustomEvenDescription');    
+
             }),    
             $this->makeSetting('customEventCategory', 'eventCategory', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The name of the datalayer variable name to use for eventCategory data';
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerCustomEventCategoryTitle');
                 $field->condition = 'useDataLayer == "1"';
-                $field->description = 'This is the name you will use for the datalayer variable you need to create. For example mtm.push({  "event": "customEvent", "eventCategory": "value", "eventAction": "value","eventName": "value","eventValue": "value"  }); ';
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerCustomEventCategoryDescription');
             }), 
 
             $this->makeSetting('customEvenAction', 'evenAction', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The name of the datalayer variable name to use for eventAction data';
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerCustomEventActionTitle');
                 $field->condition = 'useDataLayer == "1"';
-                $field->description = 'This is the name you will use for the datalayer variable you need to create. For example mtm.push({  "event": "customEvent", "eventCategory": "value", "eventAction": "value","eventName": "value","eventValue": "value"  }); ';
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerCustomEventActionDescription');
             }),         
             $this->makeSetting('customEventName', 'eventName', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The name of the datalayer variable name to use for eventAction data';
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerCustomEventNameTitle');
                 $field->condition = 'useDataLayer == "1"';
-                $field->description = 'This is the name you will use for the datalayer variable you need to create. For example mtm.push({  "event": "customEvent", "eventCategory": "value", "eventAction": "value","eventName": "value","eventValue": "value"  }); ';
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerCustomEventNameDescription');
             }), 
             $this->makeSetting('customEventValue', 'eventValue', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The name of the datalayer variable name to use for eventAction data';
+                $field->title = Piwik::translate('DigiTracking_UseDataLayerCustomEventValueTitle');
                 $field->condition = 'useDataLayer == "1"';
-                $field->description = 'This is the name you will use for the datalayer variable you need to create. For example mtm.push({  "event": "customEvent", "eventCategory": "value", "eventAction": "value","eventName": "value","eventValue": "value"  }); ';
+                $field->description = Piwik::translate('DigiTracking_UseDataLayerCustomEventValueDescription');
             }),         
         );
     }

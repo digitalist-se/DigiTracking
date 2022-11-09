@@ -48,7 +48,7 @@
             let domain = window.location.origin;
 
             // START OUTLINK EVENTS
-            //Ignore mail, phone and JS clicks etc  
+            //Ignore mail, phone and JS clicks etc and relative links
             if(options.enableOutLinkEvents && event.target != null &&
                 eventLink != undefined && 
                 eventLink != "" && 
@@ -112,8 +112,8 @@
             if(options.enablePhoneClicks && eventLink != undefined && eventLink.search("tel:") != -1 ) {    
                 _paq.push(['trackEvent', 
                     options.customPhoneEventCategory , 
-                    event.target.innerText , 
-                    window.location.pathname.toLowerCase() ,
+                    event.target.innerText + " - " + eventLink.replace("tel:",""), 
+                    window.location.pathname.toLowerCase(),
                     options.customPhoneEventValue
             ]);
 
@@ -123,7 +123,7 @@
             if(options.enableMailClicks && eventLink != undefined && eventLink.search("mailto:") != -1 ) {    
                     _paq.push(['trackEvent', 
                         options.customMailEventCategory , 
-                        event.target.innerText , 
+                        event.target.innerText + " - " + eventLink.replace("mailto:",""), 
                         window.location.pathname.toLowerCase() ,
                         options.customMailEventValue
                 ]);
