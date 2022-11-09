@@ -7,3 +7,6 @@ Added Variable for AdvancedClickObjects
 
 Added Tag for Autotracking of events
 
+1.1.4
+Fixing translations
+Improve Autotracking
