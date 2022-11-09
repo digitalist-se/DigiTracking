@@ -10,6 +10,13 @@ namespace Piwik\Plugins\DigiTracking;
 
 class DigiTracking extends \Piwik\Plugin
 {
+ public function registerEvents()
+    {
+        $events = array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+        );
+        return $events;
+    }
 
    
     
