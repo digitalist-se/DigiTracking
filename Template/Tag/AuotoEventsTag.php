@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\DigiTracking\Template\Tag;
-
+use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\TagManager\Template\Tag\BaseTag;
 use Piwik\Validators\NotEmpty;
@@ -62,41 +62,47 @@ class AuotoEventsTag extends BaseTag
         $downloadFileExtensions = implode(',', $downloadFileExtensions);
         return array(
             $this->makeSetting('enableOutLinkEvents', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-                $field->title = 'Enable automatic event tracking of outlink clicks';
-                $field->description = "This will automatically send events to Matomo for all clicks on external links. The reason for enebling this is that the built in tracker will not store the page URL from where the outlink was clicked. Events are named like this: EventCat: outlink EventAction: <click text> - <click destination url>  EventName: <page path>";
+                $field->title = Piwik::translate('DigiTracking_EnableOutLinkEventsTitle');
+                $field->description = Piwik::translate('DigiTracking_EnableOutLinkEventsDescription');
             }),
             $this->makeSetting('customOutLinkEventCategory', 'outlinkClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The eventCategory name to use for outlink events';
+                $field->title = Piwik::translate('DigiTracking_CustomOutLinkEventCategoryTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomOutLinkEventCategoryDescription');                
                 $field->condition = 'enableOutLinkEvents == "1"';
-                $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),   
-            $this->makeSetting('customOutLinkEventValuey', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
-                $field->title = 'The eventValue name to use for outlink events';
+            $this->makeSetting('customOutLinkEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
+                $field->title = Piwik::translate('DigiTracking_CustomOutLinkEventValueTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomOutLinkEventValueDescription');                
                 $field->condition = 'enableOutLinkEvents == "1"';
-                $field->description = 'The event vale to use.';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),               
             $this->makeSetting('customOutLinkInternalDomains', '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'Add a comma separated list of domains that you do not want to treat as outlinks.';
+                $field->title = Piwik::translate('DigiTracking_CustomOutLinkInternalDomainsTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomOutLinkInternalDomainsDescription');    
                 $field->condition = 'enableOutLinkEvents == "1"';
-                $field->description = 'A comma separated list of domais including protocol that will not report as outlinks. Example: https://example.com, https://example2.com. We do not support https://*.examples.com, you will need to add all domains manually.';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),                             
             $this->makeSetting('enableDownloadEvents', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-                $field->title = 'Enable automatic event tracking of downloads';
-                $field->description = "This will automatically send events to Matomo for all clicks on files (downloads). The reason for enebling this is that the built in tracker will not store the page URL from where the outlink was clicked. Events are named like this: EventCat: downloadClick EventAction: <click text> - <click destination url>  EventName: <page path>";
+                $field->title = Piwik::translate('DigiTracking_EnableDownloadEventsTitle');
+                $field->description = Piwik::translate('DigiTracking_EnableDownloadEventsDescription');
             }),
-            $this->makeSetting('customDownloadkEventCategory', 'downloadClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The eventCategory name to use for download events';
+            $this->makeSetting('customDownloadkEventCategory', 'downloadClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+                $field->title = Piwik::translate('DigiTracking_CustomDownloadkEventCategoryTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomDownloadkEventCategoryDescription');     
                 $field->condition = 'enableDownloadEvents == "1"';
-                $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),    
-            $this->makeSetting('customDownloadEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
-                $field->title = 'The eventValue name to use for download events';
+            $this->makeSetting('customDownloadEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {    
+                $field->title = Piwik::translate('DigiTracking_CustomDownloadkEventValueTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomDownloadkEventValueDescription');     
                 $field->condition = 'enableDownloadEvents == "1"';
-                $field->description = 'The event vale to use.';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),  
             $this->makeSetting('enableDownloadExtensions', $downloadFileExtensions, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-                $field->title = 'Download Extensions';
-                $field->description = 'Comma separated list of file extensions which will be considered as a download.';
+                $field->title = Piwik::translate('DigiTracking_EnableDownloadExtensionsTitle');
+                $field->description = Piwik::translate('DigiTracking_EnableDownloadExtensionseDescription');     
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
                 $field->validators[] = new NotEmpty();
                 $field->validators[] = new CharacterLength($min = 1, $max = 700);
                 $field->condition = 'enableDownloadEvents == "1"';
@@ -109,33 +115,69 @@ class AuotoEventsTag extends BaseTag
                 };
             }),          
             $this->makeSetting('enablePhoneClicks', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-                $field->title = 'Enable automatic event tracking of clicks on phone numbers';
-                $field->description = "This will automatically send events to Matomo for all clicks on phone numbers.  Events are named like this: EventCat: phoneClick EventAction: <click text>,  EventName: <page path>";
+                $field->title = Piwik::translate('DigiTracking_EnablePhoneClicksTitle');
+                $field->description = Piwik::translate('DigiTracking_EnablePhoneClicksDescription');     
             }),
-            $this->makeSetting('customPhoneEventCategory', 'phoneClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The eventCategory name to use for these events';
+            $this->makeSetting('customPhoneEventCategory', 'phoneClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {    
+                $field->title = Piwik::translate('DigiTracking_CustomPhoneEventCategoryTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomPhoneEventCategoryDescription');   
                 $field->condition = 'enablePhoneClicks == "1"';
-                $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),              
-            $this->makeSetting('customPhoneEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
-                $field->title = 'The eventValue name to use for phone number click events';
+            $this->makeSetting('customPhoneEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {    
+                $field->title = Piwik::translate('DigiTracking_CustomPhoneEventValueTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomPhoneEventValueDescription');    
                 $field->condition = 'enablePhoneClicks == "1"';
-                $field->description = 'The event vale to use.';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),  
             $this->makeSetting('enableMailClicks', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-                $field->title = 'Enable automatic event tracking of clicks on mail adresses';
-                $field->description = "This will automatically send events to Matomo for all clicks on mail links.  Events are named like this: EventCat: mailClick EventAction: <click text>,  EventName: <page path>";
+                $field->title = Piwik::translate('DigiTracking_EnableMailClicksTitle');
+                $field->description = Piwik::translate('DigiTracking_EnableMailClicksDescription');   
             }),
-            $this->makeSetting('customMailEventCategory', 'mailClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'The eventCategory name to use for these events';
+            $this->makeSetting('customMailEventCategory', 'mailClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+                $field->title = Piwik::translate('DigiTracking_CustomMailEventCategoryTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomMailEventCategoryDescription');      
                 $field->condition = 'enableMailClicks == "1"';
-                $field->description = 'The event category name to use. Note: action and name are set automatically in this tag';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
             }),
-            $this->makeSetting('customMailEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
-                $field->title = 'The eventValue name to use for mail click events';
+            $this->makeSetting('customMailEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {   
+                $field->title = Piwik::translate('DigiTracking_CustomMailEventValueTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomMailValueDescription');     
                 $field->condition = 'enableMailClicks == "1"';
-                $field->description = 'The event vale to use.';
-            }),                 
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+            }),   
+            /**              
+            $this->makeSetting('enableAccordionClicks', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+                $field->title = Piwik::translate('DigiTracking_EnableAccordionClicksTitle');
+                $field->description = Piwik::translate('DigiTracking_EnableAccordionClicksDescription');   
+                $field->title = 'Enable automatic event tracking of clicks on accordions ';
+                $field->description = "This will automatically send events to Matomo when someone open an accordions.  Events are named like this: EventCat: accordionClick EventAction: <click text>,  EventName: <page path>";
+            }),
+            $this->makeSetting('customAccordionClickSelector', '.accordion-element', FieldConfig::TYPE_STRING, function (FieldConfig $field) {   
+                $field->title = Piwik::translate('DigiTracking_CustomAccordionClickSelectorTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomAccordionClickSelectorTitleDescription');     
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+            }),
+            $this->makeSetting('customAccordionOpenSelector', '[aria-expanded]', FieldConfig::TYPE_STRING, function (FieldConfig $field) {    
+                $field->title = Piwik::translate('DigiTracking_customAccordionOpenSelectorTitle');
+                $field->description = Piwik::translate('DigiTracking_customAccordionOpenSelectorDescription');  
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+            }),                            
+            $this->makeSetting('customAccordionEventCategory', 'accordionClick', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+                $field->title = Piwik::translate('DigiTracking_CustomAccordionEventCategoryTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomAccordionEventCategoryDescription');        
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+            }),
+            $this->makeSetting('customAccordionEventValue', 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {  
+                $field->title = Piwik::translate('DigiTracking_CustomAccordionEventValueTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomAccordionEventValueDescription');    
+                $field->condition = 'enableAccordionClicks == "1"';
+                $field->customFieldComponent = self::FIELD_VARIABLE_COMPONENT;
+            }),      
+            */
         );
     }
 

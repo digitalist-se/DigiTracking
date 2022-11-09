@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\DigiTracking\Template\Variable;
 
 use Piwik\Settings\FieldConfig;
+use Piwik\Piwik;
 use Piwik\Validators\NotEmpty;
 use Piwik\Plugins\TagManager\Template\Variable\BaseVariable;
 
@@ -16,7 +17,7 @@ class AdvancedClickObjects extends BaseVariable
     public function getCategory()
     {
         //return self::CATEGORY_PAGE_VARIABLES;
-        return "All Digitalist.se Tracking Helpers";
+        return "Aawesome Digitalist.se Tracking Helpers";
     }
 
     public function getName()
@@ -59,10 +60,9 @@ class AdvancedClickObjects extends BaseVariable
     {
         return array(
             $this->makeSetting('clickObjectFunction', 'clickParents', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-                $field->title = 'Type of clickelement function to use';
-                $field->description = 'clickParents will look upwards the DOM tree (parents) using closest() and clickChildren will look down below the clickElement using querySelector().';
-                $field->inlineHelp = ' <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector">Learn about the querySelector function at the Mozilla docs</a><br>
-                 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest">Learn about the closest function at the Mozilla docs</a>';
+                $field->title = Piwik::translate('DigiTracking_ClickObjectFunctionTitle');
+                $field->description = Piwik::translate('DigiTracking_ClickObjectFunctionDescription');
+                $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectFunctionInlineHelp');
                 $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
                 $field->validators[] = new NotEmpty();
                 $field->availableValues = array(
@@ -70,43 +70,26 @@ class AdvancedClickObjects extends BaseVariable
                     'clickChildren' => 'clickChildren',
                 );
             }),
-            $this->makeSetting('clickObjectSelector', '.the-parent', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'Enter the queryselector to use the find the element';
-                $field->description = 'Enter a query selector to use to find the element relative to the click element (button below for example).';
-                $field->inlineHelp = 'This could be a .className #id or [myMetaTag=value] etc<br>
-                It can be anywhere above / below the click element<br>
-                but it has to be a parent(clickParents) or child(clickChildren).<br>
-                For example<br> <textarea style="border:none; resize: none; height: 80px" readonly>
-                <div class="the-parent" meta-data="the-value">
-                    <button>clickElement
-                        <span class="the-child" child-meta="child-value"></span>
-                    </button>
-                </div> </textarea>';
-
-
+            $this->makeSetting('clickObjectSelector', '.the-element', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = Piwik::translate('DigiTracking_ClickObjectSelectorTitle');
+                $field->description = Piwik::translate('DigiTracking_ClickObjectSelectorDescription');
+                $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectSelectorInlineHelp');
                 }),         
             $this->makeSetting('clickObjectSecondQuery', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+                $field->title = Piwik::translate('DigiTracking_ClickObjectSecondQueryTitle');
+                $field->description = Piwik::translate('DigiTracking_ClickObjectSecondQueryDescription');
                 $field->title = 'Enable subquery for clickParents';
-                $field->condition = 'clickObjectFunction == "clickParents"';
-                $field->description = "This will give you the ability to do a querySelector on the parent to find siblings or other nested elements in the page.";
-                $field->inlineHelp = 'clickElement.closest(".the-parent").querySelector(".sibling")<br>  
-                For example<br> <textarea style="border:none; resize: none; height: 65px" readonly>
-                <div class="the-parent">
-                    <div class="sibling" sibling-meta="sibling-value"></div> 
-                    <button>clickElement</button>
-                </div> </textarea>';
-
             }),
             $this->makeSetting('clickObjectSecondQuerySelector', '.theSubElement', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'Enter query selector for additional logic';
+                $field->title = Piwik::translate('DigiTracking_ClickObjectSecondQuerySelectorTitle');
+                $field->description = Piwik::translate('DigiTracking_ClickObjectSecondQuerySelectorDescription');
+                $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectSecondQuerySelectorInlineHelp');
                 $field->condition = 'clickObjectSecondQuery == true';
-                $field->description = 'Enter a query selector to use to find the sub element.';
-                $field->inlineHelp = 'This could be a .className #id or [myMetaTag=value]';
                 }),  
             $this->makeSetting('clickObjectLookupProperty', 'innerText', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-                $field->title = 'Select the property you want to access';
-                $field->description = 'The property you want to get data from after the querys have been done.';
-                $field->inlineHelp = ' If you select custom you can enter it manually';
+                $field->title = Piwik::translate('DigiTracking_ClickObjectLookupPropertyTitle');
+                $field->description = Piwik::translate('DigiTracking_ClickObjectLookupPropertyDescription');
+                $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectLookupPropertyInlineHelp');
                 $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
                 $field->validators[] = new NotEmpty();
                 $field->availableValues = array(
@@ -128,9 +111,10 @@ class AdvancedClickObjects extends BaseVariable
                 );
             }),
             $this->makeSetting('clickObjectCustomProperty', 'meta-data', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
-                $field->title = 'Tthe property you want to access. for example innerText or aria-label.';
+                $field->title = Piwik::translate('DigiTracking_clickObjectCustomPropertyTitle');
+                $field->description = Piwik::translate('DigiTracking_clickObjectCustomPropertyDescription');
+                //$field->inlineHelp = Piwik::translate('DigiTracking_clickObjectCustomPropertyInlineHelp');
                 $field->condition = 'clickObjectLookupProperty == "custom"';
-                $field->description = 'We will use the js function getAttribute("<meta-data>") to read the defined value from the element.';
                 $field->inlineHelp = 'For example<br> <textarea style="border:none; resize: none; height: 52px" readonly>
                 <div class="the-parent" meta-data="the-value">
                     <button>clickElement</button>
