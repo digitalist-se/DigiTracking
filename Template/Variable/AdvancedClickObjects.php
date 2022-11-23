@@ -59,26 +59,51 @@ class AdvancedClickObjects extends BaseVariable
     public function getParameters()
     {
         return array(
-            $this->makeSetting('clickObjectFunction', 'clickParents', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $this->makeSetting('clickObjectFunction', 'clickFixedLevels', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
                 $field->title = Piwik::translate('DigiTracking_ClickObjectFunctionTitle');
                 $field->description = Piwik::translate('DigiTracking_ClickObjectFunctionDescription');
                 $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectFunctionInlineHelp');
                 $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
                 $field->validators[] = new NotEmpty();
                 $field->availableValues = array(
+                    'clickFixedLevels' => 'clickFixedLevels',
                     'clickParents' => 'clickParents',
                     'clickChildren' => 'clickChildren',
                 );
             }),
+            $this->makeSetting('customclickObjectDirection', 'up', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+                $field->title = Piwik::translate('DigiTracking_CustomclickObjectDirectionTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomclickObjectDirectionDescription');                
+                $field->condition = 'clickObjectFunction == "clickFixedLevels"';
+                $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
+                $field->validators[] = new NotEmpty();
+                $field->availableValues = array(
+                    'up' => 'up (parents)',
+                    'down' => 'down (children)',
+                );
+            }),   
+            $this->makeSetting('customclickObjectFixedLevels',1, FieldConfig::TYPE_INT, function (FieldConfig $field) {     
+                $field->title = Piwik::translate('DigiTracking_CustomclickObjectFixedLevelsTitle');
+                $field->description = Piwik::translate('DigiTracking_CustomclickObjectFixedLevelsDescription');                
+                $field->condition = 'clickObjectFunction == "clickFixedLevels"';
+                $field->availableValues = array(
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    '5' => '5',
+                );
+            }),   
             $this->makeSetting('clickObjectSelector', '.the-element', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = Piwik::translate('DigiTracking_ClickObjectSelectorTitle');
                 $field->description = Piwik::translate('DigiTracking_ClickObjectSelectorDescription');
                 $field->inlineHelp = Piwik::translate('DigiTracking_ClickObjectSelectorInlineHelp');
+                $field->condition = 'clickObjectFunction != "clickFixedLevels"';
                 }),         
             $this->makeSetting('clickObjectSecondQuery', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
                 $field->title = Piwik::translate('DigiTracking_ClickObjectSecondQueryTitle');
                 $field->description = Piwik::translate('DigiTracking_ClickObjectSecondQueryDescription');
-                $field->title = 'Enable subquery for clickParents';
+                $field->condition = 'clickObjectFunction != "clickFixedLevels"';
             }),
             $this->makeSetting('clickObjectSecondQuerySelector', '.theSubElement', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = Piwik::translate('DigiTracking_ClickObjectSecondQuerySelectorTitle');
@@ -96,7 +121,7 @@ class AdvancedClickObjects extends BaseVariable
                     'custom' => 'custom  - enter manually',
                     'innerText' => 'innerText',
                     'innerHTML' => 'innerHTML',
-                    'class' => 'class',
+                    'className' => 'className',
                     'style' => 'style',
                     'id' => 'id',
                     'src' => 'src',
@@ -110,10 +135,9 @@ class AdvancedClickObjects extends BaseVariable
                     'aria-required' => 'aria-required',
                 );
             }),
-            $this->makeSetting('clickObjectCustomProperty', 'meta-data', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
+            $this->makeSetting('clickObjectCustomProperty', '.meta-data', FieldConfig::TYPE_STRING, function (FieldConfig $field) {     
                 $field->title = Piwik::translate('DigiTracking_clickObjectCustomPropertyTitle');
                 $field->description = Piwik::translate('DigiTracking_clickObjectCustomPropertyDescription');
-                //$field->inlineHelp = Piwik::translate('DigiTracking_clickObjectCustomPropertyInlineHelp');
                 $field->condition = 'clickObjectLookupProperty == "custom"';
                 $field->inlineHelp = 'For example<br> <textarea style="border:none; resize: none; height: 52px" readonly>
                 <div class="the-parent" meta-data="the-value">

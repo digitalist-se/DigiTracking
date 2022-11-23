@@ -18,6 +18,11 @@ class DigiTracking extends \Piwik\Plugin
         return $events;
     }
 
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'DigiTracking_Info';
+    }
    
     
 }

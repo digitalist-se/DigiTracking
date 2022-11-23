@@ -1,5 +1,6 @@
 {
     "DigiTracking": {
+        "Info": "This plugin will help you with various tracking problems and provides helpers to make complicated tasks easier.",
         "UseDataLayerTitle": "Send data as a custom event to Datalayer",
         "UseDataLayerDescription": "You can choose to send the events via the DataLayer with custom Events instead of directly pushing the events to Matomo with _paq.push(['trackEvent',....) The reason for doing so would give you more control in the TagManager. You can set up more rules etc. If you enable this you will need to manually set up 3 datalayer variables, a trigger and a Matomo Event before anything will be sent to Matomo",
         "UseDataLayerCustomEvenTitle": "Send data as a custom event to Datalayer!!",
@@ -18,6 +19,10 @@
         "CustomOutLinkEventCategoryDescription": "The event category name to use. Note: action and name are set automatically in this tag",
         "CustomOutLinkEventValueTitle": "The eventValue to use for outlink events",
         "CustomOutLinkEventValueDescription": "The event numeric value to use",
+        "CustomclickObjectFixedLevelsTitle": "The amount of levels to climb",
+        "CustomclickObjectFixedLevelsDescription": "We will only allow 1-5 levels, if you need more you should probably use clickParents or clickChildren functions instead.",
+        "CustomclickObjectDirectionTitle": "The directions to climb (Up/Down)",
+        "CustomclickObjectDirectionDescription": "Depending on the selection we will use UP = parentElement & Down = firstElementChild relative to the clickElement",
         "CustomOutLinkInternalDomainsTitle": "A comma separated list of domains that you do not want to treat as outlinks.",
         "CustomOutLinkInternalDomainsDescription": "A comma separated list of domais including protocol that will not report as outlinks. Example: https://example.com, https://example2.com. We do not support https://*.examples.com, you will need to add all domains manually",
         "EnableDownloadEventsTitle": "Enable automatic event tracking of downloads",
@@ -51,7 +56,7 @@
         "CustomAccordionEventValueTitle": "The eventValue name to use for accordion click events",
         "CustomAccordionEventValueDescription": "A numeric value to use for eventValue",
         "ClickObjectFunctionTitle":"Lookup function to use",
-        "ClickObjectFunctionDescription":"clickParents will look upwards the DOM tree (parents) using closest() and clickChildren will look down below the clickElement using querySelector()",
+        "ClickObjectFunctionDescription":"clickObjectFixed will look at a fixed position (up/down) relative to the clickElement,  clickParents will search upwards the DOM tree (parents) using closest() and clickChildren will search downwards(children) relative to the clickElement using the querySelector() function",
         "ClickObjectFunctionInlineHelp":" <a href='https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector'>Learn about the querySelector function at the Mozilla docs</a><br><a href='https://developer.mozilla.org/en-US/docs/Web/API/Element/closest'>Learn about the closest function at the Mozilla docs</a>",
         "ClickObjectSelectorTitle":"Enter the queryselector to use the find the element",
         "ClickObjectSelectorDescription":"Enter a query selector to use to find the element relative to the click element (button below for example).",
